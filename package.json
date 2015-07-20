@@ -1,0 +1,28 @@
+{
+  "name": "opeee-fb-shop-crawler",
+  "version": "1.0.0",
+  "description": "find the long tail shop in facebook",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://tranduytrung@github.com/tranduytrung/opeee-fb-shop-crawler.git"
+  },
+  "keywords": [
+    "opeee",
+    "facebook",
+    "crawler"
+  ],
+  "author": "tranduytrung",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tranduytrung/opeee-fb-shop-crawler/issues"
+  },
+  "homepage": "https://github.com/tranduytrung/opeee-fb-shop-crawler",
+  "dependencies": {
+    "async": "^1.4.0",
+    "facebook-node": "0.0.3"
+  }
+}
