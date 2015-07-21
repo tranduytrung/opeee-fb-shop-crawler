@@ -24,6 +24,7 @@
   "dependencies": {
     "async": "^1.4.0",
     "facebook-node": "0.0.3",
-    "lodash": "^3.10.0"
+    "lodash": "^3.10.0",
+    "moment": "^2.10.3"
   }
 }
