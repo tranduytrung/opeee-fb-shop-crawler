@@ -75,7 +75,7 @@ module.exports = function(options, callback) {
     fb.setAccessToken(options.accessToken);
 
     var defaults = {
-        type: 'page',
+        type: 'page'
     }
 
     var params = _.defaults({
@@ -87,6 +87,7 @@ module.exports = function(options, callback) {
     var shopList = _([]);
     var after = undefined;
     var threshold = options.count || 9007199254740991;
+    var count = 0;
 
     async.doWhilst(function(doWhilstCallback) {
         search(_.extend(params, {after: after}), function(err, res) {
@@ -99,6 +100,7 @@ module.exports = function(options, callback) {
             // check condition and add to shopList
             filter(res.data, function(err, candidates) {
                 shopList = shopList.concat(candidates);
+                count += candidates.length;
 
                 // call to next loop
                 doWhilstCallback();
@@ -106,7 +108,8 @@ module.exports = function(options, callback) {
         });
     },function() {
         // continuing condition
-        return after && shopList.length < threshold;
+        console.log(count);
+        return after && count < threshold;
     }, function(err) {
         if (err) {
             callback(err);
