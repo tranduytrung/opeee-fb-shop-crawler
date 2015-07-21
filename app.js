@@ -1,5 +1,8 @@
 var readline = require('readline');
 var async = require('async');
+var _ = require('lodash');
+var config = require('./config');
+var crawl = require('./crawl');
 
 var rl = readline.createInterface({
   input: process.stdin,
@@ -8,23 +11,32 @@ var rl = readline.createInterface({
 });
 
 async.series({
-    favoriteFood: function(callback) {
-        rl.question('What is your favorite food? ', function(answer) {
+    accessToken: function(callback) {
+        rl.question('Access Token: ', function(answer) {
+            if (_.isEmpty(answer)) {
+                return callback(null);
+            }
+
             callback(null, answer);
         });
     },
-    favoriteColor: function(callback) {
-        rl.question('What is your favorite color? ', function(answer) {
+    query: function(callback) {
+        rl.question('Search: ', function(answer) {
+            if (_.isEmpty(answer)) {
+                return callback(null);
+            }
+
             callback(null, answer);
         });
     }
 }, function(err, answers) {
     if (err) {
+        console(err);
         rl.close();
         return;
     }
 
-    console.log('Oh, so your favorite food is ' + answers.favoriteFood);
-    console.log('and your favorite color is ' + answers.favoriteColor);
+    var options = _.defaults(answers, config);
+    crawl(options);
     rl.close();
 })
