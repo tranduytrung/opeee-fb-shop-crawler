@@ -77,6 +77,7 @@ async.series({
                 });
 
                 output = output + (clusterSize*sector) + " to " + (clusterSize*(sector + 1)) + ","
+                    + ids.length + ","
                     + ids.join() + "\r\n";
             });
         }
