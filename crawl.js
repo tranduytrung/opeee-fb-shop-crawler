@@ -55,6 +55,16 @@ function cluster(options, callback) {
     var pages = options.pages;
     var size = options.clusterSize;
     _.forEach(pages, function(page) {
+        // the first is newest post because it is orderd by facebook
+        var newestPost = _.get(page, "feed.data[0]");
+        
+        var hasPosted7Days = newestPost 
+            && newestPost.created_time
+            && moment().diff(moment(newestPost.created_time), 'days') <= 7;
+
+        if (!hasPosted7Days) {
+            return;
+        }
 
         var sector = Math.floor(page.likes/size);
         if (!clusters[sector]) {
