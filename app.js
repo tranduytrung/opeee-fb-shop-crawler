@@ -57,16 +57,36 @@ async.series({
 
     var options = _.defaults(answers, config);
     console.log("Crawling...");
-    crawl(options, function(err, pages) {
+    crawl(options, function(err, result) {
         if (err) {
             console.log(err);
         }
         
-        var ids = _.map(pages, function(page) {
-            return page.id;
-        });
+        var output = "";
+        if (options.func || options.func == 'filter') {
+            var ids = _.map(result, function(page) {
+                return page.id;
+            });
 
-        fs.writeFile(answers.saveTo, ids.join("\r\n"), function(err) {
+            output = ids.join("\r\n");
+        } else {
+            var clusterSize = options.clusterSize || 5000;
+            _.forEach(result, function(cluster, sector) {
+                if (!cluster || cluster.length == 0) {
+                    return;
+                }
+                
+                var ids = _.map(cluster, function(page) {
+                    return page.id;
+                });
+
+                output = output
+                    + (clusterSize*sector) + " to " + (clusterSize*(sector + 1)) + "\r\n"
+                    + ids.join("\r\n") + "\r\n\r\n";
+            });
+        }
+        
+        fs.writeFile(answers.saveTo, output, function(err) {
             if(err) {
                 return console.log(err);
             }
