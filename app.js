@@ -71,18 +71,13 @@ async.series({
             output = ids.join("\r\n");
         } else {
             var clusterSize = options.clusterSize || 5000;
-            _.forEach(result, function(cluster, sector) {
-                if (!cluster || cluster.length == 0) {
-                    return;
-                }
-                
+            _.forEach(result, function(cluster, sector) {                
                 var ids = _.map(cluster, function(page) {
                     return page.id;
                 });
 
-                output = output
-                    + (clusterSize*sector) + " to " + (clusterSize*(sector + 1)) + "\r\n"
-                    + ids.join("\r\n") + "\r\n\r\n";
+                output = output + (clusterSize*sector) + " to " + (clusterSize*(sector + 1)) + ","
+                    + ids.join() + "\r\n";
             });
         }
         
